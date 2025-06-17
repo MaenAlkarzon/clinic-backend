@@ -1,7 +1,12 @@
-import pg from "pg";
-import dotenv from "dotenv";
-dotenv.config();
+const { Client } = require('pg');
+require('dotenv').config();
 
-const pgclient = new pg.Client(process.env.DATABASE_URL);
+const db = new Client({
+  connectionString: process.env.DATABASE_URL,
+});
 
-export default pgclient;
+db.connect()
+  .then(() => console.log('Connected to PostgreSQL'))
+  .catch((err) => console.error('Database connection error:', err));
+
+module.exports = db;
